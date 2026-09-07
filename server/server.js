@@ -21,17 +21,17 @@ const allowedOrigins = [
   "https://programminghelperchatbotm-git-main-mrrobotxors-projects.vercel.app",
 ];
 
+const cors = require("cors");
+
 app.use(
   cors({
-    origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error(`CORS blocked: ${origin}`));
-    },
+    origin: true,
     credentials: true,
   })
 );
+
+// Preflight requests ke liye
+app.options("*", cors());
 
 app.use(express.json());
 
