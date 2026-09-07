@@ -9,7 +9,11 @@
   --muted:#9ca3af;
 }
 
-html,body,#root{
+/* Global */
+
+html,
+body,
+#root{
   width:100%;
   height:100%;
   margin:0;
@@ -48,8 +52,8 @@ body{
 
 .ph-new-chat{
   display:flex;
-  gap:8px;
   align-items:center;
+  gap:8px;
   background:var(--blue);
   color:#fff;
   border:none;
@@ -77,20 +81,57 @@ body{
   overflow:auto;
 }
 
-.ph-chat-item{
-  width:100%;
-  text-align:left;
-  padding:12px;
-  background:none;
-  border:none;
-  color:#fff;
+/* Sidebar Chat Row */
+
+.ph-chat-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
   border-radius:10px;
-  cursor:pointer;
   margin-bottom:6px;
 }
 
-.ph-chat-item:hover{
+.ph-chat-item{
+  flex:1;
+  background:none;
+  border:none;
+  color:#fff;
+  text-align:left;
+  padding:12px;
+  border-radius:10px;
+  cursor:pointer;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.ph-chat-row:hover{
   background:var(--hover);
+}
+
+.ph-delete-btn{
+  width:34px;
+  height:34px;
+  border:none;
+  background:none;
+  color:var(--muted);
+  cursor:pointer;
+  border-radius:8px;
+  opacity:0;
+  transition:.2s ease;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.ph-chat-row:hover .ph-delete-btn{
+  opacity:1;
+}
+
+.ph-delete-btn:hover{
+  background:var(--hover);
+  color:#ef4444;
 }
 
 /* Main */
@@ -100,6 +141,7 @@ body{
   display:flex;
   flex-direction:column;
   overflow:hidden;
+  position:relative;
 }
 
 .ph-menu{
@@ -150,7 +192,7 @@ body{
   font-weight:700;
   cursor:pointer;
   user-select:none;
-  transition:all .2s ease;
+  transition:.2s ease;
   box-shadow:0 4px 12px rgba(37,99,235,.35);
 }
 
@@ -163,11 +205,11 @@ body{
 
 .ph-chat-window{
   flex:1;
-  overflow:auto;
-  padding:30px 20px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:24px 0;
   display:flex;
   flex-direction:column;
-  align-items:center;
 }
 
 .ph-empty-chat{
@@ -187,9 +229,9 @@ body{
 
 .ph-message-row{
   width:100%;
-  max-width:860px;
   display:flex;
-  margin-bottom:22px;
+  padding:0 24px;
+  margin-bottom:20px;
 }
 
 .ph-message-row.user{
@@ -201,30 +243,63 @@ body{
 }
 
 .ph-message-bubble{
-  max-width:82%;
-  padding:16px 18px;
-  border-radius:22px;
+  width:fit-content;
+  max-width:min(820px,78%);
+  background:var(--surface);
+  border-radius:20px;
+  padding:18px;
   line-height:1.7;
-  word-break:break-word;
+  color:var(--text);
+  text-align:left;
+  word-wrap:break-word;
+  overflow-wrap:anywhere;
 }
 
 .ph-message-row.user .ph-message-bubble{
   background:var(--blue);
 }
 
-.ph-message-row.bot .ph-message-bubble{
-  background:var(--surface);
-}
-
 .ph-typing{
   opacity:.8;
 }
 
-/* Markdown */
+/* Markdown Fix */
+
+.ph-message-bubble *{
+  text-align:left;
+}
+
+.ph-message-bubble h1,
+.ph-message-bubble h2,
+.ph-message-bubble h3,
+.ph-message-bubble h4{
+  margin:18px 0 10px;
+  font-weight:700;
+}
+
+.ph-message-bubble p{
+  margin:10px 0;
+}
+
+.ph-message-bubble ul,
+.ph-message-bubble ol{
+  margin:12px 0 12px 22px;
+}
+
+.ph-message-bubble li{
+  margin:6px 0;
+}
+
+.ph-message-bubble hr{
+  border:none;
+  border-top:1px solid #444;
+  margin:18px 0;
+}
 
 .ph-message-bubble pre{
-  overflow:auto;
+  margin:14px 0;
   border-radius:12px;
+  overflow:auto;
 }
 
 .ph-message-bubble code{
@@ -234,21 +309,20 @@ body{
 /* Input */
 
 .ph-input-wrap{
-  padding:18px;
+  padding:18px 24px 24px;
+  background:var(--bg);
   border-top:1px solid var(--border);
-  display:flex;
-  justify-content:center;
 }
 
 .ph-input-box{
-  width:100%;
-  max-width:860px;
+  max-width:900px;
+  margin:auto;
   display:flex;
   align-items:flex-end;
   gap:12px;
   background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:18px;
+  border:1px solid #444;
+  border-radius:24px;
   padding:12px;
 }
 
@@ -261,17 +335,23 @@ body{
   color:#fff;
   font-size:15px;
   max-height:160px;
+  font-family:inherit;
+}
+
+.ph-input-box textarea::placeholder{
+  color:var(--muted);
 }
 
 .ph-input-box button{
   width:42px;
   height:42px;
+  border:none;
   border-radius:50%;
   background:var(--blue);
-  border:none;
   color:#fff;
   cursor:pointer;
   transition:.2s;
+  flex-shrink:0;
 }
 
 .ph-input-box button:hover{
@@ -294,7 +374,7 @@ body{
 
 /* Responsive */
 
-@media(max-width:768px){
+@media (max-width:768px){
 
   .ph-menu{
     display:block;
@@ -302,8 +382,8 @@ body{
 
   .ph-sidebar{
     position:fixed;
-    left:-100%;
     top:0;
+    left:-100%;
     height:100vh;
     transition:.3s;
     z-index:100;
@@ -321,59 +401,19 @@ body{
     padding-left:70px;
   }
 
+  .ph-message-row{
+    padding:0 14px;
+  }
+
   .ph-message-bubble{
     max-width:94%;
   }
-}
-/* Sidebar Chat Row */
 
-.ph-chat-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  border-radius:10px;
-  margin-bottom:6px;
-}
+  .ph-input-wrap{
+    padding:14px;
+  }
 
-.ph-chat-item{
-  flex:1;
-  background:none;
-  border:none;
-  color:white;
-  text-align:left;
-  padding:12px;
-  border-radius:10px;
-  cursor:pointer;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.ph-chat-row:hover{
-  background:#2f2f2f;
-}
-
-.ph-delete-btn{
-  width:34px;
-  height:34px;
-  border:none;
-  background:none;
-  color:#9ca3af;
-  cursor:pointer;
-  border-radius:8px;
-  opacity:0;
-  transition:all .2s ease;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.ph-chat-row:hover .ph-delete-btn{
-  opacity:1;
-}
-
-.ph-delete-btn:hover{
-  background:#3a3a3a;
-  color:#ef4444;
+  .ph-input-box{
+    border-radius:20px;
+  }
 }
