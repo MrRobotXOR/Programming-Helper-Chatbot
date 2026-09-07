@@ -18,16 +18,16 @@ connectDB();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://programminghelperchatbotm.vercel.app",
+  "https://programminghelperchatbotm-git-main-mrrobotxors-projects.vercel.app",
 ];
 
 app.use(
   cors({
     origin(origin, callback) {
       if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
+        return callback(null, true);
       }
+      return callback(new Error(`CORS blocked: ${origin}`));
     },
     credentials: true,
   })
