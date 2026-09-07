@@ -1,5 +1,6 @@
 const dotenv = require("dotenv");
 dotenv.config();
+
 const express = require("express");
 const cors = require("cors");
 
@@ -8,16 +9,15 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 
-
 const app = express();
 
-// Database Connection
+// Database
 connectDB();
 
-// Middlewares
+// Allowed Frontend URLs
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://programming-helper.vercel.app",
+  "https://programminghelperchatbotm.vercel.app",
 ];
 
 app.use(
@@ -32,13 +32,13 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json());
-app.use("/api/chat", chatRoutes);
 
-app.use("/api/auth", authRoutes);
-app.use("/api/chat", chatRoutes);
+app.use(express.json());
+
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/chat", chatRoutes);
+
 app.get("/api/profile", authMiddleware, (req, res) => {
   res.json({
     success: true,
@@ -46,6 +46,7 @@ app.get("/api/profile", authMiddleware, (req, res) => {
     userId: req.user.id,
   });
 });
+
 app.get("/", (req, res) => {
   res.json({
     success: true,
@@ -57,6 +58,5 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
-console.log("Key Prefix:", process.env.GEMINI_API_KEY?.substring(0, 10));
