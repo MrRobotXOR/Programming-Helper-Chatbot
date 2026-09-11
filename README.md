@@ -181,8 +181,4 @@ The project is deployed using:
 * Chat Search
 * Profile Management
 
-## Author
 
-**Shubham**
-
-GitHub: https://github.com/MrRobotXOR
